@@ -1,19 +1,30 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { Story } from "../../types";
 import { loadStories } from "../../api/hackerNews";
+import { createAppAsyncThunk } from "../../hooks/reduxHook";
 
 type StoriesSliceType = {
   stories: Story[];
-  status: "loading" | "error" | "fulfilled" | "refresh";
+  status: "loading" | "error" | "fulfilled" | "refresh" | null;
   error: string | null;
 };
 const initialState: StoriesSliceType = {
   stories: [],
-  status: "loading",
+  status: null,
   error: null,
 };
 
-export const loadingStories = createAsyncThunk("stories/load", loadStories);
+export const loadingStories = createAppAsyncThunk("stories/load", loadStories, {
+  condition: (arg: { isRefresh?: boolean } | undefined, { getState }) => {
+    if (
+      (!arg?.isRefresh && getState().stories.stories.length !== 0) ||
+      getState().stories.status === "loading" ||
+      getState().stories.status === "refresh"
+    ) {
+      return false;
+    }
+  },
+});
 const storiesSlice = createSlice({
   name: "stories",
   initialState,
@@ -30,7 +41,7 @@ const storiesSlice = createSlice({
       })
       .addCase(loadingStories.rejected, (state, action) => {
         state.status = "error";
-        state.error = action.error.message??"Ошибка";
+        state.error = action.error.message ?? "Ошибка";
       })
       .addCase(loadingStories.fulfilled, (state, action) => {
         state.status = "fulfilled";
