@@ -3,7 +3,7 @@ import { HomePage } from "./pages/HomePage/HomePage";
 import { StoryPage } from "./pages/StoryPage/StoryPage";
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { MainLayout } from "./layouts/MainLayout";
-function App() {
+function MyApp() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default MyApp;

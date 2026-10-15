@@ -10,6 +10,12 @@ export const request = async <T>(path: string): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
+export const loadOneStory = async (id:string):Promise<Story>=>{
+  console.log(id);
+  
+  return await request<Story>(`/item/${id}.json`)
+}
+
 function isLoaded(
   item: PromiseSettledResult<Story | null>,
 ): item is PromiseFulfilledResult<Story> {
