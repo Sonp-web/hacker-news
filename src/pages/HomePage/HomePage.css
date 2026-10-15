@@ -1,0 +1,25 @@
+.home-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.home-toolbar-descr {
+  min-width: 0;
+}
+
+.home-toolbar-title {
+  margin: 0;
+  color: #1f1f1f;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.home-toolbar-subtitle {
+  margin: 2px 0 0;
+  color: #8c8c8c;
+  font-size: 13px;
+}

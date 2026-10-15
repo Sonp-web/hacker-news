@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 14px 40px;
+  background: #ff6600;
+}
+
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid #fff;
+  font-size: 15px;
+}
