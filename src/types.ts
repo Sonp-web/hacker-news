@@ -12,13 +12,16 @@ export interface Story {
   dead?: boolean;
   deleted?: boolean;
 }
-export interface CommentItem {
+export interface CommentItemType {
   by?: string;
   id: number;
-  kids?: number[];
+  kids?: number[] | CommentNode[];
   parent: number;
   text?: string;
   time: number;
   type: "comment";
   deleted?: boolean;
 }
+export type CommentNode = Omit<CommentItemType, "kids"> & {
+  kids?: number[] | CommentNode[];
+};

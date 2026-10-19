@@ -1,4 +1,4 @@
-import type { Story } from "../types";
+import type { CommentItemType, CommentNode, Story } from "../types";
 
 const BASE_URL = "https://hacker-news.firebaseio.com/v0";
 const COUNT_STORIES = 100;
@@ -10,12 +10,28 @@ export const request = async <T>(path: string): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
-export const loadOneStory = async (id:string):Promise<Story>=>{
-  console.log(id);
-  
-  return await request<Story>(`/item/${id}.json`)
-}
+export const loadOneStory = async (id: string): Promise<Story> => {
+  const res = await request<Story>(`/item/${id}.json`);
+  if (res.type === "story") {
+    return res;
+  } else {
+    throw new Error("not story");
+  }
+};
 
+function isLoadedComments(
+  item: PromiseSettledResult<CommentItemType | null>,
+): item is PromiseFulfilledResult<CommentItemType> {
+  return item.status === "fulfilled" && item.value !== null;
+}
+export const loadComments = async (
+  arr: number[] | CommentNode[],
+): Promise<CommentItemType[]> => {
+  const comments = await Promise.allSettled(
+    arr.map((id) => request<CommentItemType | null>(`/item/${id}.json`)),
+  );
+  return comments.filter(isLoadedComments).map((item) => item.value);
+};
 function isLoaded(
   item: PromiseSettledResult<Story | null>,
 ): item is PromiseFulfilledResult<Story> {
