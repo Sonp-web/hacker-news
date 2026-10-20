@@ -26,12 +26,18 @@
   overflow-wrap: anywhere;
 }
 
-.story-page-header .story-page-url {
+.story-page-url {
   flex-basis: 100%;
   margin-bottom: 6px;
   color: #1677ff;
+  font-size: 14px;
   font-weight: 500;
+  text-decoration: none;
   overflow-wrap: anywhere;
+}
+
+.story-page-url:hover {
+  text-decoration: underline;
 }
 
 .story-page-header .story-page-score {

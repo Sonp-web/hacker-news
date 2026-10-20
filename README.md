@@ -1,75 +1,78 @@
-# React + TypeScript + Vite
+# Hacker News
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Учебный клиент для [Hacker News](https://news.ycombinator.com/) на React и Redux. Данные берутся напрямую с фронтенда из [официального API Hacker News](https://github.com/HackerNews/API).
 
-Currently, two official plugins are available:
+## Возможности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Главная страница (`/`)**
 
-## React Compiler
+- 100 последних новостей, самые свежие сверху
+- у каждой новости: название, рейтинг, автор, дата публикации и количество комментариев
+- клик по новости открывает её страницу без перезагрузки
+- кнопка «Обновить» для принудительного обновления списка
+- состояния загрузки и ошибки, повторная попытка при неудачной загрузке
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Страница новости (`/item/:id`)**
 
-## Expanding the ESLint configuration
+- ссылка на новость, заголовок, дата, автор, счётчик комментариев
+- дерево комментариев: корневые загружаются сразу, ответы — по клику на комментарий
+- кнопка «Обновить» для принудительного обновления комментариев
+- кнопка возврата к списку новостей
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Стек
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19 + TypeScript
+- Redux Toolkit
+- React Router
+- Ant Design
+- Vite
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Требования
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [Node.js](https://nodejs.org/) 20.19+ или 22.12+
+- npm
+
+## Запуск
+
+1. Клонировать репозиторий:
+
+   ```bash
+   git clone https://github.com/Sonp-web/hacker-news.git
+   cd hacker-news
+   ```
+
+2. Установить зависимости:
+
+   ```bash
+   npm install
+   ```
+
+3. Запустить приложение:
+
+   ```bash
+   npm start
+   ```
+
+4. Открыть в браузере [http://localhost:3000](http://localhost:3000).
+
+## Скрипты
+
+| Команда           | Что делает                                     |
+| ----------------- | ---------------------------------------------- |
+| `npm start`       | dev-сервер на `localhost:3000`                 |
+| `npm run build`   | проверка типов и production-сборка в `dist/`   |
+| `npm run preview` | локальный просмотр production-сборки           |
+| `npm run lint`    | проверка кода ESLint                           |
+
+## Структура
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+src/
+├── api/          # запросы к Hacker News API
+├── components/   # переиспользуемые компоненты (StoryItem, CommentItem, ...)
+├── hooks/        # типизированные хуки Redux
+├── layouts/      # общий layout с шапкой
+├── pages/        # страницы: главная, новость, 404
+├── redux/        # store и слайсы
+└── utils/        # форматирование дат, склонения
 ```

@@ -2,9 +2,14 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHook";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { ArrowLeftOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  ExportOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { formatTime } from "../../utils/formatTime";
 import { formatComment } from "../../utils/formatComments";
+import { getHostname } from "../../utils/getHostname";
 import { useEffect } from "react";
 import {
   loadStory,
@@ -41,7 +46,7 @@ export const StoryPage: React.FC = () => {
   return (
     <>
       <Link to="/">
-        <Button icon={<ArrowLeftOutlined />}>К новостям</Button>
+        <ArrowLeftOutlined /> К новостям
       </Link>
 
       <LoadingError
@@ -53,7 +58,20 @@ export const StoryPage: React.FC = () => {
             <>
               <div className="story-page-header">
                 <h1 className="story-page-title">{actualStory.title}</h1>
-                <p className="story-page-url">{actualStory.url}</p>
+                <a
+                  className="story-page-url"
+                  href={
+                    actualStory.url ??
+                    `https://news.ycombinator.com/item?id=${actualStory.id}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {actualStory.url
+                    ? getHostname(actualStory.url)
+                    : "Открыть на Hacker News"}{" "}
+                  <ExportOutlined />
+                </a>
                 <p className="story-page-score">{actualStory.score}</p>
                 <p className="story-page-by">{actualStory.by}</p>
                 <p className="story-page-time">
