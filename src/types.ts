@@ -15,13 +15,11 @@ export interface Story {
 export interface CommentItemType {
   by?: string;
   id: number;
-  kids?: number[] | CommentNode[];
+  kids?: number[] | CommentItemType[];
   parent: number;
   text?: string;
   time: number;
   type: "comment";
   deleted?: boolean;
+  dead?: boolean;
 }
-export type CommentNode = Omit<CommentItemType, "kids"> & {
-  kids?: number[] | CommentNode[];
-};

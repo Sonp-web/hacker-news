@@ -46,9 +46,31 @@ const commentsSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(loadingSubComments.fulfilled, (state, action) => {
-        const temp = state.comments
-          .flat(Infinity)
-          .find((item) => item.id === action.payload[0].parent);
+        const func = (
+          item: CommentItemType | number,
+        ): CommentItemType | undefined => {
+          if (typeof item !== "number") {
+            if (item.id === action.payload[0].parent) {
+              return item;
+            } else if (item.kids && typeof item.kids[0] !== "number") {
+              for (let i = 0; i < item.kids?.length; i++) {
+                const temp1: CommentItemType | undefined = func(item.kids[i]);
+                if (temp1) {
+                  return temp1;
+                }
+              }
+              return undefined;
+            }
+          }
+        };
+        let temp: CommentItemType | undefined;
+        for (let i = 0; i < state.comments.length; i++) {
+          temp = func(state.comments[i]);
+
+          if (temp) {
+            break;
+          }
+        }
 
         if (temp?.kids) {
           temp.kids = action.payload;

@@ -1,4 +1,4 @@
-import type { CommentItemType, CommentNode, Story } from "../types";
+import type { CommentItemType, Story } from "../types";
 
 const BASE_URL = "https://hacker-news.firebaseio.com/v0";
 const COUNT_STORIES = 100;
@@ -25,7 +25,7 @@ function isLoadedComments(
   return item.status === "fulfilled" && item.value !== null;
 }
 export const loadComments = async (
-  arr: number[] | CommentNode[],
+  arr: number[] | CommentItemType[],
 ): Promise<CommentItemType[]> => {
   const comments = await Promise.allSettled(
     arr.map((id) => request<CommentItemType | null>(`/item/${id}.json`)),

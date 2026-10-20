@@ -3,13 +3,15 @@ import { CommentItem } from "../CommentItem/CommentItem";
 import "./CommentList.css";
 
 type CommentListProps = {
-  comments: CommentItemType[];
+  comments: CommentItemType[] | number[];
 };
 export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   return (
     <div className="comment-list">
       {comments.map((comment) => {
-        return <CommentItem comment={comment} key={comment.id} />;
+        if (typeof comment !== "number") {
+          return <CommentItem comment={comment} key={comment.id} />;
+        }
       })}
     </div>
   );

@@ -67,7 +67,13 @@ export const StoryPage: React.FC = () => {
                 <h2 className="story-page-comm-title">
                   Комментарии ({actualStory.descendants})
                 </h2>
-                <Button type="primary" icon={<ReloadOutlined />}>
+                <Button
+                  type="primary"
+                  icon={<ReloadOutlined />}
+                  onClick={() => {
+                    dispatch(loadingComments(actualStory.kids ?? []));
+                  }}
+                >
                   Обновить
                 </Button>
               </div>
